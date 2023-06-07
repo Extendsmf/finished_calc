@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "QPushButton"
 #include <QMainWindow>
+#include "QKeyEvent"
 
 namespace Ui {
 class MainWindow;
@@ -15,6 +16,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QPushButton *button;
+
 
 public slots:
     void  buttonClicked();

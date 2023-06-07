@@ -54,8 +54,23 @@ void MainWindow:: buttonClicked(){
     double x, y;
     x = xmin;
     int xg, yg;
-
+    double ymin2 = 0,  ymax2 = 0;
     double ymin = -10,  ymax = 10;
+    QString fx = ui->lineEdit_fx->text();
+    while (x<=xmax){
+        QString tempf = fx;
+        double ans = 0;
+        QString s1 =QString::number(x);
+        tempf.replace("x", "(x)");
+        tempf.replace("x",s1);
+        std::string tempfStd = tempf.toStdString();
+        calc(tempfStd, ans);
+        y = ans;
+        if (y < ymin2) ymin2 = y;
+        if (y > ymax2) ymax2 = y;
+        x += 0.001;
+    }
+   ymin = ymin2; ymax = ymax2;
     if(ui->lineEdit_y1->text() != "") {
            ymin = ui->lineEdit_y1->text().toDouble();
        }
@@ -72,7 +87,7 @@ void MainWindow:: buttonClicked(){
 
     pen.setColor(Qt::yellow);
     QPainterPath path;
-    QString fx = ui->lineEdit_fx->text();
+
     fx.replace("x", "(x)");
     QString tempf = fx;
     QString s1 =QString::number(x);
@@ -95,11 +110,12 @@ void MainWindow:: buttonClicked(){
         tempf.replace("x",s1);
         std::string tempfStd = tempf.toStdString();
         clc = calc(tempfStd, ans);
+
         if (clc == 0) {
             y = ans;
             xg = x0 + kx*x;
             yg = y0 + ky*y;
-            if (check == -1) {
+        if (check == -1) {
                 path.moveTo(xg, yg);
                 check = 1;
             } else {
@@ -110,6 +126,8 @@ void MainWindow:: buttonClicked(){
                 }
             }
 
+        } else {
+            path.moveTo(xg, yg);
         }
         x += stepx;
     }
